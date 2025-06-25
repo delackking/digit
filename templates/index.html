@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digit Recognizer</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; background: #f5f5f5; }
+        #result { font-size: 24px; margin-top: 20px; }
+        .container { background: white; padding: 20px; border-radius: 8px; width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Upload a Digit Image</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required />
+        <button type="submit">Predict</button>
+    </form>
+    <div id="result"></div>
+</div>
+<script>
+document.getElementById('uploadForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const res = await fetch('/predict', { method: 'POST', body: formData });
+    const data = await res.json();
+    document.getElementById('result').innerText = 'Predicted Digit: ' + data.prediction;
+};
+</script>
+</body>
+</html>
